@@ -1,0 +1,52 @@
+#!groovy
+// Check ub1 properties
+
+pipeline {
+    agent any
+
+    environment {
+        REMOTE_HOST = "root@172.31.211.227"  // Удалённый хост
+        PROJECT_PATH = "/root/project_app"   // Путь к проекту на удалённом сервере
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo "Cloning the repository..."
+                git branch: 'main', url: 'https://github.com/dimanso555/project_app.git'
+            }
+        }
+
+        stage('Deploy to Remote Host') {
+            steps {
+                echo "Deploying project to remote server..."
+                // Копируем проект на удалённый сервер через SCP
+                sh """
+                scp -r * ${REMOTE_HOST}:${PROJECT_PATH}
+                """
+
+                // Выполняем команды на удалённом сервере через SSH
+                sh """
+                ssh ${REMOTE_HOST} << EOF
+                    cd ${PROJECT_PATH}
+                    echo "Stopping previous containers..."
+                    docker-compose down
+                    echo "Building Docker images..."
+                    docker-compose build
+                    echo "Starting containers..."
+                    docker-compose up -d
+                EOF
+                """
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Pipeline completed successfully!"
+        }
+        failure {
+            echo "Pipeline failed. Check logs for details."
+        }
+    }
+}
