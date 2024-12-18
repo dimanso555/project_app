@@ -35,7 +35,7 @@ pipeline {
                     docker-compose build
                     echo "Starting containers..."
                     docker-compose up -d
-                EOF
+                
                 """
             }
         }
