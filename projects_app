@@ -43,10 +43,20 @@ pipeline {
 
     post {
         success {
-            echo "Pipeline completed successfully!"
+            emailext(
+                to: 'dimablinov8080@gmail.com',
+                subject: "SUCCESS: Build #${env.BUILD_NUMBER}",
+                body: "The build was successful. Check the details at ${env.BUILD_URL}"
+            )
         }
         failure {
-            echo "Pipeline failed. Check logs for details."
+            emailext(
+                to: 'dimablinov8080@gmail.com',
+                subject: "FAILURE: Build #${env.BUILD_NUMBER}",
+                body: "The build failed. Check the details at ${env.BUILD_URL}"
+            )
         }
+
+
     }
 }
