@@ -3,9 +3,13 @@
 
 pipeline {
     agent any
-    triggers {
-        pollSCM 'H/2 * * * *'
-    }
+    
+    
+    properties([
+        pipelineTriggers([
+            [$class: 'SCMTrigger', scmpoll_spec: 'H/2 * * * *']
+        ])
+    ])
     environment {
         REMOTE_HOST = "root@172.31.211.227"  // Удалённый хост
         PROJECT_PATH = "/root/project_app"   // Путь к проекту на удалённом сервере
