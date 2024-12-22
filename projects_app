@@ -9,10 +9,11 @@ pipeline {
         PROJECT_PATH = "/root/project_app"   // Путь к проекту на удалённом сервере
     }
 
-    triggers {
-        // Проверять изменения в репозитории каждые 5 минут
-        pollSCM('H/5 * * * *')
-    }
+    properties([
+        pipelineTriggers([
+            pollSCM('H/5 * * * *')
+        ])
+      ])
     
     
     stages {
