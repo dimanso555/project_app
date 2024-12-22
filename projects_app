@@ -5,8 +5,9 @@ pipeline {
     agent any
     
     
-   triggers{
-        pollscm'H/2 * * * *'
+   triggers {
+        // Проверять изменения в репозитории каждые 5 минут
+        pollSCM('H/5 * * * *')
     }
     environment {
         REMOTE_HOST = "root@172.31.211.227"  // Удалённый хост
