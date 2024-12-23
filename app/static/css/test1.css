@@ -1,5 +1,5 @@
 body {
-    background-color: darkred;
+    background-color: rgb(235, 239, 241);
     margin: 0;
     font-family: Arial, sans-serif;
 }
@@ -11,7 +11,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: #23d30b;
+    background-color: #7ea2a5;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
